@@ -1,0 +1,45 @@
+/* src/components/Header.css */
+.header {
+    background: #0056b3;
+    color: #fff;
+    padding: 1rem;
+  }
+  
+  .logo{
+    height: 50px;
+    margin-right: 1rem;
+  }
+  .header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .header-logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .header-logo img {
+    height: 50px;
+    margin-right: 10px;
+  }
+  
+  .header-nav ul {
+    list-style: none;
+    display: flex;
+    margin-right: auto;
+    gap: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  }
+  
+  .header-nav a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .header-nav a:hover {
+    text-decoration: underline;
+  }
+  

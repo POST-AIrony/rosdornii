@@ -1,0 +1,38 @@
+/* src/components/Header.css */
+.header {
+    background: #0056b3;
+    color: #fff;
+    padding: 1rem;
+  }
+  
+  .header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .header-logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .header-logo img {
+    height: 50px;
+    margin-right: 10px;
+  }
+  
+  .header-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .header-nav a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .header-nav a:hover {
+    text-decoration: underline;
+  }
+  
