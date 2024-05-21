@@ -101,7 +101,8 @@ docker-compose up
 
 - **Backend**: FastAPI, SQLAlchemy, PostgreSQL, Docker
 - **Frontend**: React
-- **Модели и аналитика**: Использование языковой модели, интеграция с Hugging Face
+- **Модели и аналитика**: Использование языковой модели, интеграция с Hugging Face и LLama-cpp python интерфейса.
+- **LLM**: Сайга Mistral квантизированная под q8. Разработана русским разработчиком. 
 
 ## Заключение
 
