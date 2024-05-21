@@ -30,7 +30,7 @@ services:
 
   frontend:
     build:
-      context: frontend
+      context: rosdornii-web
       dockerfile: Dockerfile
     container_name: frontend
     command: >
