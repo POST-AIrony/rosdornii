@@ -13,7 +13,7 @@ services:
       - backend_network
       - ch_ntw
     ports:
-      - "3000:3000"
+      - "8000:8000"
 
   postgres:
     build:
