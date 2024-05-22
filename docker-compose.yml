@@ -12,6 +12,8 @@ services:
     networks:
       - backend_network
       - ch_ntw
+    ports:
+      - "3000:3000"
 
   postgres:
     build:
@@ -26,8 +28,6 @@ services:
       - "5432:5432"
     networks:
       - backend_network
-    expose:
-      - "8000"
 
   frontend:
     build:
@@ -35,13 +35,13 @@ services:
       dockerfile: Dockerfile
     container_name: frontend
     command: >
-      bash -c "npm run build"
+      bash -c "npm run dev"
     volumes:
       - frontend_volume:/app/dist
     networks:
       - frontend_network
-    expose:
-    - "3000"
+    ports:
+      - "3000:3000"
 
   # nginx:
   #   build:
