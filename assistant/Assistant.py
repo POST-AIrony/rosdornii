@@ -1,7 +1,7 @@
-from ml.addons import load_models
+from addons import load_models
 from SETTINGS import MODEL_EMB_NAME, LLM_PATH, HOST, PORT, DEVICE, TG_TOKEN
 from llama_cpp import Llama
-from ml.ml import interact_manager, request2similiars
+from ml import interact_manager, request2similiars
 import clickhouse_connect
 from telegram.ext import Application, CommandHandler, filters, MessageHandler
 

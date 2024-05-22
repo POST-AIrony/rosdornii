@@ -168,3 +168,4 @@ clickhouse/ch-and-vector/fs/volumes/clickhouse/etc/clickhouse-server/users.d/use
 clickhouse/db/uuid
 clickhouse/ch-and-vector/fs/volumes/vector/vector.toml
 clickhouse/ch-and-vector/fs/volumes/clickhouse/docker-entrypoint-initdb.d/init-db.sh
+assistant/model-q8_0.gguf

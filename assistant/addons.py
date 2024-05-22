@@ -1,5 +1,4 @@
-from SETTINGS import MODEL_EMB_NAME, LLM_PATH, HOST, PORT, DEVICE, TABLE_NAME, SYSTEM_PROMPT
-import clickhouse_connect, torch
+import torch
 from transformers import AutoModel, AutoTokenizer
 from typing import List, Union
 
