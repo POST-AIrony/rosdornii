@@ -30,4 +30,4 @@ RUN CUDACXX=/usr/local/cuda-12/bin/nvcc CMAKE_ARGS="-DLLAMA_CUBLAS=on -DCMAKE_CU
 COPY . /app/
 
 
-CMD ["python3", "Bot.py"]
+CMD ["python3", "Assistant.py"]
