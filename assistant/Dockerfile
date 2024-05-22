@@ -1,21 +1,33 @@
-FROM nvidia/cuda:12.4.1-base-ubuntu22.04
+FROM python:3.11
 
-# Install any additional dependencies you need
-RUN apt-get update && apt-get install -y python3-pip libpq-dev python3-dev cmake
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-# Set the working directory
 WORKDIR /app
-
-# Copy requirements file and install dependencies
 COPY requirements.txt /app/
-RUN pip3 install --no-cache-dir -r requirements.txt
 
-# Uninstall llama-cpp-python and reinstall with CUBLAS support
-RUN pip3 uninstall -y llama-cpp-python
-RUN CMAKE_ARGS="-DLLAMA_CUBLAS=on" FORCE_CMAKE=1 pip3 install --upgrade --force-reinstall llama-cpp-python --no-cache-dir
 
-# Copy the rest of the application code
-COPY . .
 
-# Command to run your bot
+RUN apt-get update && apt-get install -y software-properties-common && \
+    wget https://developer.download.nvidia.com/compute/cuda/12.3.1/local_installers/cuda-repo-debian12-12-3-local_12.3.1-545.23.08-1_amd64.deb && \
+    dpkg -i cuda-repo-debian12-12-3-local_12.3.1-545.23.08-1_amd64.deb && \
+    cp /var/cuda-repo-debian12-12-3-local/cuda-*-keyring.gpg /usr/share/keyrings/ && \
+    add-apt-repository contrib && \
+    apt-get update && \
+    apt-get -y install cuda-toolkit-12-3
+
+RUN apt install -y libglu1-mesa-dev
+
+RUN apt install -y gcc-11 g++-11
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+RUN export FORCE_CMAKE=1
+RUN export CMAKE_ARGS=-DLLAMA_CUBLAS=on
+
+RUN CUDACXX=/usr/local/cuda-12/bin/nvcc CMAKE_ARGS="-DLLAMA_CUBLAS=on -DCMAKE_CUDA_ARCHITECTURES=all-major" FORCE_CMAKE=1 pip install llama-cpp-python --upgrade --force-reinstall --no-cache-dir
+
+COPY . /app/
+
+
 CMD ["python3", "Bot.py"]
