@@ -26,8 +26,6 @@ RUN export FORCE_CMAKE=1
 RUN export CMAKE_ARGS=-DLLAMA_CUBLAS=on
 
 RUN CUDACXX=/usr/local/cuda-12/bin/nvcc CMAKE_ARGS="-DLLAMA_CUBLAS=on -DCMAKE_CUDA_ARCHITECTURES=all-major" FORCE_CMAKE=1 pip install llama-cpp-python --upgrade --force-reinstall --no-cache-dir
-RUN wget https://huggingface.co/IlyaGusev/saiga_mistral_7b_gguf/resolve/main/model-q8_0.gguf /app/
-COPY . /app/wget https://huggingface.co/IlyaGusev/saiga_mistral_7b_gguf/resolve/main/model-q8_0.gguf
-
+COPY . /app/
 
 CMD ["python3", "Assistant.py"]
