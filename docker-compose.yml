@@ -8,7 +8,6 @@ services:
       postgres:
         condition: service_healthy
       ch_server:
-        condition: service_healthy
     command: >
       bash -c "alembic upgrade head && poetry run uvicorn app:app --host 0.0.0.0 --port 8000"
     networks:
@@ -72,11 +71,6 @@ services:
       - '9000:9000'
     volumes:
       - ./clickhouse/db:/var/lib/clickhouse
-    healthcheck:
-      test: ["CMD-SHELL", "curl -sS http://localhost:8123/ping | grep -q 'Ok'"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
     networks:
       - ch_ntw
 
