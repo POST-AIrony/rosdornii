@@ -13,7 +13,7 @@ from models.scheme import OKSItemSchema
 from typing import List
 from utils.ml import *
 import clickhouse_connect
-from SETTINGS import *
+from SETTINGS import HOST, PORT
 router = APIRouter(tags=["upload"])
 
 
@@ -144,8 +144,6 @@ async def append_to_clickhouse(db: AsyncSession = Depends(get_db_connection)):
         result_list.append(clean_text)
     TABLE_NAME = "Data"
     MODEL_EMB_NAME = "ai-forever/sbert_large_nlu_ru"
-    HOST = "127.0.0.1"
-    PORT = "8123"
     DEVICE = "cpu"
     client = clickhouse_connect.get_client(host=HOST, port=PORT)
     drop_table(client, TABLE_NAME)
