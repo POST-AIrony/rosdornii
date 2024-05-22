@@ -1,14 +1,16 @@
-# Use an official Python runtime as a parent image
-FROM python:3.11-slim
+FROM python:3.11
 
-# Set the working directory in the container
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
 WORKDIR /app
+COPY pyproject.toml poetry.lock /app/
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+RUN pip install poetry
 
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+RUN poetry config virtualenvs.create false \
+    && poetry install --no-interaction --no-ansi
 
+COPY . /app/
 # Run Bot.py when the container launches
-CMD ["python", "Bot.py"]
+CMD ["poetry", "run", "python", "Bot.py"]
