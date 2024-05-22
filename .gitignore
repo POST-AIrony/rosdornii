@@ -162,3 +162,9 @@ data/База ТГ.xml
 data/ГЭСН.xml
 data/ГЭСНм.xml
 data/ФСБЦ_Мат&Оборуд.xml
+assistant/ml/model-q8_0.gguf
+clickhouse/ch-and-vector/fs/volumes/clickhouse/etc/clickhouse-server/config.d/config.xml
+clickhouse/ch-and-vector/fs/volumes/clickhouse/etc/clickhouse-server/users.d/users.xml
+clickhouse/db/uuid
+clickhouse/ch-and-vector/fs/volumes/vector/vector.toml
+clickhouse/ch-and-vector/fs/volumes/clickhouse/docker-entrypoint-initdb.d/init-db.sh

@@ -8,6 +8,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      ch_server:
+        condition: service_healthy
     command: >
       bash -c "alembic upgrade head && poetry run uvicorn app:app --host 0.0.0.0 --port 8000"
 
@@ -56,7 +58,49 @@ services:
       - "443:443"
       - "8000:8000"
 
+  ch_server:
+    image: yandex/clickhouse-server
+    ports:
+      - '8123:8123'
+      - '9000:9000'
+    volumes:
+      - ./clickhouse/db:/var/lib/clickhouse
+    networks:
+      - ch_ntw
+
+  ch_client:
+    image: yandex/clickhouse-client:latest
+    entrypoint:
+      - /bin/sleep
+    depends_on:
+      - ch_server
+    links:
+      - ch_server
+    command: 
+      - infinity
+    networks:
+      - ch_ntw
+
+  assistant:
+    build:
+      context: assistant
+      dockerfile: Dockerfile
+    container_name: assistant
+    depends_on:
+      - ch_server
+    networks:
+      - ch_ntw
+    volumes:
+      - ./assistant:/app
+    command: ["python", "Bot.py"]
+
+networks:
+  ch_ntw:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.222.1.0/24
+
 volumes:
   postgres_storage:
   frontend_volume:
-

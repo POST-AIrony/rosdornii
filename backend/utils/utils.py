@@ -126,3 +126,11 @@ async def parse_section_fsnb(section, session: AsyncSession):
         await parse_section_fsnb(subsection, session)
 
 
+def dict_to_str(d):
+    csv_string = ""
+    for key, value in d.items():
+        if isinstance(value, dict):
+            csv_string += dict_to_str(value)
+        else:
+            csv_string += str(value) + ","
+    return csv_string

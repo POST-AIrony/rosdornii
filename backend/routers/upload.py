@@ -6,13 +6,14 @@ from sqlalchemy.orm import joinedload
 from models.database import get_db_connection
 from fastapi import UploadFile, HTTPException, Depends
 from fastapi.responses import JSONResponse
-from utils.utils import parse_xlsx, parse_gsn, parse_fsnb
+from utils.utils import parse_xlsx, parse_gsn, parse_fsnb, dict_to_str
 import pandas as pd
 from sqlalchemy.future import select
 from models.scheme import OKSItemSchema
 from typing import List
-
-
+from utils.ml import *
+import clickhouse_connect
+from SETTINGS import *
 router = APIRouter(tags=["upload"])
 
 
@@ -37,7 +38,7 @@ async def upload_file(file: UploadFile, db: AsyncSession = Depends(get_db_connec
                 row["date_modified"] if pd.notna(row["date_modified"]) else None
             )
 
-            item = oksi.OKSItem(
+            item = OKSItem(
                 L3=row["L3"],
                 L4=row["L4"],
                 L5=row["L5"],
@@ -125,3 +126,37 @@ async def get_fsnb(db: AsyncSession = Depends(get_db_connection)):
         return JSONResponse(
             content=[await resource.to_dict() for resource in resources]
         )
+
+@router.patch("/update_RAG") 
+async def append_to_clickhouse(db: AsyncSession = Depends(get_db_connection)):
+    async with db.begin():
+        result = await db.execute(
+            select(Section)
+        )
+        sections = result.scalars().all()
+        dicts = [await section.to_dict() for section in sections]
+    result_list = []
+    for d in dicts:
+        text = dict_to_str(d)
+        clean_text = re.sub(r"[{}:;\'()\[\]]", "", text)
+        clean_text = re.sub(r"None", "", clean_text)
+        clean_text = re.sub(r"  ", " ", clean_text)
+        result_list.append(clean_text)
+    TABLE_NAME = "Data"
+    MODEL_EMB_NAME = "ai-forever/sbert_large_nlu_ru"
+    HOST = "127.0.0.1"
+    PORT = "8123"
+    DEVICE = "cpu"
+    client = clickhouse_connect.get_client(host=HOST, port=PORT)
+    drop_table(client, TABLE_NAME)
+    create_table(client, TABLE_NAME)
+    data = [{
+        "text": text,
+    } for text in result_list]
+    text_data = [item.get("text") for item in data]
+    tokenizer, model = load_models(MODEL_EMB_NAME, device=DEVICE)
+    embeddings = txt2embeddings(text_data, tokenizer, model, device=DEVICE)
+    for i, item in enumerate(data):
+        vectors = ",".join([str(float(vector)) for vector in embeddings[i]])
+        query =  f"""INSERT INTO "{TABLE_NAME}"("Text", "Embedding") VALUES('{item.get('text')}', ({vectors}))"""
+        client.command(query)

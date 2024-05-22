@@ -14,6 +14,11 @@ SYSTEM_PROMPT = """
 4. Используй информацию из контекста ГЭСН для формирования ответа.
 
 КОНТЕКСТ: {}
-ЗАПРОС: {}
-
 """
+
+SYSTEM_TOKEN = 1587
+USER_TOKEN = 2188
+BOT_TOKEN = 12435
+LINEBREAK_TOKEN = 13
+ROLE_TOKENS = {"user": USER_TOKEN, "bot": BOT_TOKEN, "system": SYSTEM_TOKEN}
+TG_TOKEN = "7099242816:AAF9ikXz_DOsP5JzC3SODryNkqic3QFgLUE"
