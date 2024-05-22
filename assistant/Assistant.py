@@ -16,8 +16,8 @@ llm_model = Llama(
 )
 
 async def start(update, context):
-    update.message.reply_text(
-        "Привет! Я бот для анализа данных из ГЭСН. Задайте свой вопрос."
+    await update.message.reply_text(
+        "Привет! Я бот для анализа данных из ГЭСН. Задайте свой вопрос!"
     )
 
 

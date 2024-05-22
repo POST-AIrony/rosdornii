@@ -39,25 +39,25 @@ services:
     networks:
       - frontend_network
 
-  nginx:
-    build:
-      context: .docker/nginx/
-      dockerfile: Dockerfile
-    container_name: nginx
-    volumes:
-      - /etc/letsencrypt:/etc/letsencrypt
-      - frontend_volume:/usr/share/nginx/html
-    env_file:
-      - .docker/.env
-    depends_on:
-      - backend
-      - frontend
-    ports:
-      - "80:80"
-      - "443:443"
-    networks:
-      - frontend_network
-      - backend_network
+  # nginx:
+  #   build:
+  #     context: .docker/nginx/
+  #     dockerfile: Dockerfile
+  #   container_name: nginx
+  #   volumes:
+  #     - /etc/letsencrypt:/etc/letsencrypt
+  #     - frontend_volume:/usr/share/nginx/html
+  #   env_file:
+  #     - .docker/.env
+  #   depends_on:
+  #     - backend
+  #     - frontend
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   networks:
+  #     - frontend_network
+  #     - backend_network
 
   ch_server:
     image: yandex/clickhouse-server
