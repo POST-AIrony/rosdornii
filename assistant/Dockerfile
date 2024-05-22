@@ -1,12 +1,7 @@
-# Use an official CUDA base image
-FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu20.04
+FROM nvidia/cuda:12.4.1-base-ubuntu22.04
 
 # Install any additional dependencies you need
-RUN apt-get update && apt-get install -y \
-    python3-pip \
-    python3-dev \
-    cmake \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y python3-pip libpq-dev python3-dev cmake
 
 # Set the working directory
 WORKDIR /app
