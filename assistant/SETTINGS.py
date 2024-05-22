@@ -1,4 +1,4 @@
-HOST = "127.0.0.1"
+HOST = 'ch_server'
 PORT = "8123"
 TABLE_NAME = "Data"
 DEVICE = "cuda"
