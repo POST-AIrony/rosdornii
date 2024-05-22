@@ -8,7 +8,7 @@ services:
       - postgres
       - ch_server
     command: >
-      bash -c "alembic upgrade head && poetry run uvicorn app:app --host 0.0.0.0 --port 8000"
+      bash -c "poetry run uvicorn app:app --host 0.0.0.0 --port 8000"
     networks:
       - backend_network
 
@@ -99,7 +99,7 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
-    command: ["python3", "Bot.py"]
+    command: ["python3", "Assistant.py"]
 
 networks:
   ch_ntw:
