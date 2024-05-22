@@ -11,6 +11,7 @@ services:
       bash -c "uvicorn app:app --host 0.0.0.0 --port 8000"
     networks:
       - backend_network
+      - ch_ntw
 
   postgres:
     build:
